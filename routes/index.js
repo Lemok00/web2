@@ -22,7 +22,7 @@ app.get('/login', function (req, res) {
     if (req.session.isLogged === true)
         res.redirect('/');
     else
-        res.render('trytry')
+        res.render('login')
 });
 
 app.post('/login', function (req, res) {
@@ -33,7 +33,7 @@ app.post('/login', function (req, res) {
         } else if(!user){
             res.send('用户不存在');
         } else if(user.u_psw !== req.body.psw) {
-            res.json({ ret_code: 1, ret_msg: '账号或密码错误' });
+            res.send({ ret_code: 1, ret_msg: '账号或密码错误' });
         } else {
             req.session.userName = req.body.name;
             req.session.isLogged = true;
@@ -57,13 +57,13 @@ app.get('/register', function (req, res) {
 });
 
 app.post('/register',function (req, res) {
-    console.log(req.body);
+    //console.log(req.body);
     if(req.session.isLogged === true){
-        res.json({ret_msg : "您已登录，请先退出登录" });
+        res.send({ret_msg : "您已登录，请先退出登录" });
     }else{
         model.findOne({u_name:req.body.name},function (err, user) {
             if(err||user){
-                res.json({ret_msg:"用户已存在"});
+                res.send({ret_msg:"用户已存在"});
             }else{
                 let newUser = new model({
                     u_name: req.body.name,
@@ -71,9 +71,9 @@ app.post('/register',function (req, res) {
                 });
                 newUser.save(function (err) {
                     if(err){
-                        res.json({ret_msg:"注册失败"});
+                        res.send({ret_msg:"注册失败"});
                     }else{
-                        res.json({ret_msg:"注册成功"});
+                        res.send({ret_msg:"注册成功"});
                         req.session.isLogged=true;
                         req.session.userName=req.body.name;
                         //res.redirect('/');
