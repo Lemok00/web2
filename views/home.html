@@ -6,6 +6,8 @@
 </head>
 <body>
     <div>用户名：<span><%= userName %> </span>  <a href="/log/logout">退出登录</a></div>
-    <button class="button" type="button" @click="window.open('/news/create_news')">Create News</button>
+    <a href="/news/create_news">
+        <button>Create News</button>
+    </a>
 </body>
 </html>                    
