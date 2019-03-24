@@ -3,9 +3,9 @@ var testDB = 'mongodb://localhost/myweb';
 
 mongoose.connect(testDB, { useNewUrlParser: true },(err) => {
     if (err) {
-        console.log(err ||'connect failed');
+        console.log(err ||'connect users failed');
     } else {
-        console.log('connect succeed');
+        console.log('connect users succeed');
     }
 });
 

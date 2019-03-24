@@ -40,7 +40,7 @@
 </head>
 <body>
 <div id="app" class="mydiv" >
-    <form action="/login" method="POST">
+    <form action="/log/login" method="POST">
         <!--<div v-bind:class="{ active: isActive }"></div>-->
         <div v-bind:style="styleObject">Username&nbsp<input placeholder="Input your Name here" type="text" name="name"></div>
         <div v-bind:style="styleObject">Password&nbsp&nbsp<input placeholder="Input your Key  here" type="password" name="psw"></div>
@@ -48,7 +48,7 @@
         <!--<input type="submit" value="submit" />-->
         <button class="button" type="submit">Log In</button>
         &nbsp&nbsp
-        <button class="button" type="button" @click="window.open('/register')">Register</button>
+        <button class="button" type="button" @click="window.open('/log/register')">Register</button>
     </form>
 </div>
 
