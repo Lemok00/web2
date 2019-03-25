@@ -1,7 +1,7 @@
 const express = require('express');
 const newsModel = require('../models/news');
 const router = express.Router();
-
+//新闻主页
 router.get('/', function (req, res) {
     if (req.session.isLogged !== true) {
         res.redirect('/');
@@ -11,6 +11,25 @@ router.get('/', function (req, res) {
     console.log('hello news');
 });
 
+//获取最近10条新闻
+router.get('/news_list', function (req, res) {
+    if (req.session.isLogged !== true) {
+        res.redirect('/');
+    } else {
+        let page = (req.body.page || 1);
+        let rows = (req.body.rows || 10); //由请求指定每页新闻的数目
+        let query = newsModel.find({},['_id','tittle','create_date','create_user']);
+        query.skip((page - 1) * rows);
+        query.limit(rows);  //最多取rows行数据
+        query.exec(function (err,newsList) {
+            res.render('news_list', {newsList: newsList});
+            //console.log(newsList);
+        });
+    }
+});
+
+
+//发布新闻
 router.get('/create_news', function (req, res) {
     if (req.session.isLogged !== true) {
         res.redirect('/');
