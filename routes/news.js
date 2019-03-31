@@ -168,7 +168,6 @@ router.post('/post_modify', function (req, res) {
         if (err || !news) {
             //发生错误或新闻不存在时返回错误信息
             res.send('当前新闻不存在');
-            return;
         }
     });
 
