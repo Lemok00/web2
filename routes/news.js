@@ -21,7 +21,7 @@ router.get('/news_list', function (req, res) {
         let query = newsModel.find({});
         query.skip((page - 1) * rows);
         query.limit(rows);  //最多取rows行数据
-        query.exec(function (err,newsList) {
+        query.exec(function (err, newsList) {
             res.render('news_list', {newsList: newsList});
             //console.log(newsList);
         });
@@ -68,6 +68,40 @@ router.post('/create_news', function (req, res) {
             }
         })
     }
+});
+
+router.get('/search_news', function (req, res) {
+    if (req.session.isLogged !== true) {
+        res.redirect('/');
+        return;
+    }
+    let keyword = req.query.search_keywords;
+    let _filter = {
+        $or: [
+            {tittle: {$regex: keyword}},
+            {content: {$regex: keyword}},
+            {create_user: {$regex: keyword}},
+            {attachment: {$regex: keyword}}
+        ]
+    };
+    let count = 0;
+    newsModel.countDocuments(_filter, function (err, news) {
+        if (err) {
+            console.log(err);
+        } else {
+            count = news;
+        }
+    });
+    newsModel.find(_filter)
+        .limit(10)
+        .sort({'id': -1})
+        .exec(function (err, news) {
+            if (err) {
+                console.log(err);
+            } else {
+                res.send(JSON.stringify({data: news, count: count}));
+            }
+        })
 });
 
 module.exports = router;
