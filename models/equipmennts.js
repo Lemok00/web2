@@ -3,14 +3,14 @@ var testDB = 'mongodb://localhost/myweb';
 
 mongoose.connect(testDB, {useNewUrlParser: true}, (err) => {
     if (err) {
-        console.log(err || 'connect news failed');
+        console.log(err || 'connect equipments failed');
     } else {
-        console.log('connect news succeed');
+        console.log('connect equipments succeed');
     }
 });
 
 const newsSchema = new mongoose.Schema({
-    MsgType:            {type:String,   required:true,  default:'newsMsg'},
+    MsgType:            {type:String,   required:true,  default:'equipMsg'},
     create_user:        {type: String,  required: true},
     create_date:        {type: Date,    required: true, default: Date.now},
     is_Modified:        {type: Boolean, required: true, default: false},
@@ -22,4 +22,4 @@ const newsSchema = new mongoose.Schema({
     attachment:         {type: String}
 });
 
-module.exports = mongoose.model('News', newsSchema);
+module.exports = mongoose.model('Equipments', newsSchema);

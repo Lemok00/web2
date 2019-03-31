@@ -18,7 +18,7 @@ router.get('/news_list', function (req, res) {
     } else {
         let page = (req.body.page || 1);
         let rows = (req.body.rows || 10); //由请求指定每页新闻的数目
-        let query = newsModel.find({},['_id','tittle','create_date','create_user']);
+        let query = newsModel.find({});
         query.skip((page - 1) * rows);
         query.limit(rows);  //最多取rows行数据
         query.exec(function (err,newsList) {
