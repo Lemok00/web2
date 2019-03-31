@@ -104,4 +104,20 @@ router.get('/search_news', function (req, res) {
         })
 });
 
+router.get('/ask_modify', function (req, res) {
+    if (req.session.isLogged !== true) {
+        res.redirect('/');
+        return;
+    }
+    let keyword = req.query.search_keywords;
+    newsModel.findOne({_id: keyword})
+        .exec(function (err, news) {
+            if (err) {
+                console.log(err);
+            } else {
+                res.render('news_modify', {tittle: news.tittle, content: news.content,attachment:news.attachment});
+            }
+        })
+});
+
 module.exports = router;

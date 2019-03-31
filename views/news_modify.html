@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:v-bind="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8">
+    <title>Vue 测试实例 - 菜鸟教程(runoob.com)</title>
+    <script src="https://cdn.staticfile.org/vue/2.2.2/vue.min.js"></script>
+    <style>
+        .active {
+            width: 1520px;
+            height: 500px;
+            background: #8ec16d;
+        }
+        .mydiv{
+            width:300px;
+            height:200px;
+            position:absolute;
+            left:50%;
+            top:50%;
+            margin:-100px 0 0 -150px;
+            border: 100px;
+            border: #8ec16d;
+        }
+        .button {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 8px 22px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 15px;
+            margin: 8px 12px;
+            cursor: pointer;
+        }
+        .inset {
+            border:4px;
+
+        }
+    </style>
+</head>
+<body>
+<div id="app" class="mydiv" >
+    <form action="/log/login" method="POST">
+        <!--<div v-bind:class="{ active: isActive }"></div>-->
+        <div>Tittle&nbsp<input type="text" value="" name="tittle" id="tittle"></div>
+        <div>Content&nbsp&nbsp<input type="text" value="" name="content" id="content"></div>
+        <div>Attachment&nbsp&nbsp<input type="text" value="" name="attachment" id="attachment"></div>
+        <br>
+        <!--<input type="submit" value="submit" />-->
+        <button class="button" type="submit">Log In</button>
+    </form>
+</div>
+
+<script>
+
+    new Vue({
+        el: '#app',
+        data: {
+            isActive:true,
+            styleObject: {
+                color: 'green',
+                fontSize: '18px'
+            }
+        }
+
+    });
+
+    var TittleData = '<%=tittle%>';
+    document.getElementById("tittle").value=TittleData;
+    var ContentData = '<%=content%>';
+    document.getElementById("content").value=ContentData;
+    var AttachData = '<%=attachment%>';
+    document.getElementById("attachment").value=AttachData;
+</script>
+</body>
+</html>
