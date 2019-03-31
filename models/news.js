@@ -1,13 +1,26 @@
 var mongoose = require('mongoose');
 var testDB = 'mongodb://localhost/myweb';
 
-mongoose.connect(testDB, {useNewUrlParser: true}, (err) => {
+mongoose.connect(testDB, {useNewUrlParser: true, useFindAndModify: false}, (err) => {
     if (err) {
         console.log(err || 'connect news failed');
     } else {
         console.log('connect news succeed');
     }
 });
+
+/*
+* 数据类型：新闻
+* 创建人
+* 创建时间
+* 是否修改过
+* 最后修改人
+* 最后修改时间
+* 标题
+* 分类
+* 内容
+* 附件
+* */
 
 const newsSchema = new mongoose.Schema({
     MsgType:            {type:String,   required:true,  default:'newsMsg'},

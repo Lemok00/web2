@@ -10,16 +10,18 @@
             height: 500px;
             background: #8ec16d;
         }
-        .mydiv{
-            width:300px;
-            height:200px;
-            position:absolute;
-            left:50%;
-            top:50%;
-            margin:-100px 0 0 -150px;
+
+        .mydiv {
+            width: 300px;
+            height: 200px;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            margin: -100px 0 0 -150px;
             border: 100px;
             border: #8ec16d;
         }
+
         .button {
             background-color: #4CAF50;
             border: none;
@@ -32,22 +34,25 @@
             margin: 8px 12px;
             cursor: pointer;
         }
+
         .inset {
-            border:4px;
+            border: 4px;
 
         }
     </style>
 </head>
 <body>
-<div id="app" class="mydiv" >
-    <form action="/log/login" method="POST">
+<div id="app" class="mydiv">
+    <form action="/news/post_modify" method="POST">
         <!--<div v-bind:class="{ active: isActive }"></div>-->
+        <input type='text' value='1' name="_id" id="id" hidden>
         <div>Tittle&nbsp<input type="text" value="" name="tittle" id="tittle"></div>
         <div>Content&nbsp&nbsp<input type="text" value="" name="content" id="content"></div>
+        <div>Classify&nbsp&nbsp<input type="text" value="" name="classify" id="classify"></div>
         <div>Attachment&nbsp&nbsp<input type="text" value="" name="attachment" id="attachment"></div>
         <br>
         <!--<input type="submit" value="submit" />-->
-        <button class="button" type="submit">Log In</button>
+        <button class="button" type="submit">Save Modification</button>
     </form>
 </div>
 
@@ -56,7 +61,7 @@
     new Vue({
         el: '#app',
         data: {
-            isActive:true,
+            isActive: true,
             styleObject: {
                 color: 'green',
                 fontSize: '18px'
@@ -65,12 +70,21 @@
 
     });
 
+    var IdData = '<%=id%>';
+    document.getElementById("id").value = IdData;
+
     var TittleData = '<%=tittle%>';
-    document.getElementById("tittle").value=TittleData;
+    document.getElementById("tittle").value = TittleData;
+
     var ContentData = '<%=content%>';
-    document.getElementById("content").value=ContentData;
+    document.getElementById("content").value = ContentData;
+
+    var ClassifyData = '<%=classify%>';
+    document.getElementById("classify").value = ClassifyData;
+
     var AttachData = '<%=attachment%>';
-    document.getElementById("attachment").value=AttachData;
+    document.getElementById("attachment").value = AttachData;
+
 </script>
 </body>
 </html>
