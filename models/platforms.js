@@ -1,10 +1,10 @@
 const mongoose = require('mongoose');
 const testDB = 'mongodb://localhost/myweb';
 
-mongoose.connect(testDB,{useNewUrlParser: true, useFindAndModify: false},function (err) {
-    if(err){
-        console.log(err||'connect platforms failed');
-    }else{
+mongoose.connect(testDB, {useNewUrlParser: true, useFindAndModify: false}, function (err) {
+    if (err) {
+        console.log(err || 'connect platforms failed');
+    } else {
         console.log('connect platforms succeed');
     }
 });
@@ -18,7 +18,13 @@ mongoose.connect(testDB,{useNewUrlParser: true, useFindAndModify: false},functio
 * 最后修改时间
 */
 const platSchema = new mongoose.Schema({
-    MsgType:{type:String,required: true,default:'platMsg'},
-    platName:{type: String,required:true},
+    MsgType:            {type: String,  required: true, default: 'platMsg'},
+    platName:           {type: String,  required: true},
+    coverImg:           {type: String,  required: true, default: 'defaultimg'},
+    create_user:        {type: String,  required: true},
+    create_date:        {type: Date,    required: true, default: Date().now},
+    last_modified_user: {type: String,  required: true},
+    last_modified_date: {type: Date,    required: true, default: Date.now}
+});
 
-})
+module.exports = mongoose.model('Platforms', platSchema);
