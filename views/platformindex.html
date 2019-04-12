@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>element-starter</title>
+  <style>
+    .maincolor{
+      background:#0f2350;
+      height: 140px;
+      color: white;
+      font-size: 30px;
+      position: fixed;
+      top: 5px;
+      right: 5px;
+      left:5px;
+        text-shadow: 0px 0px 5px white;
+    /*rgba(17,16,19,0.53)*/
+        /*background-repeat:no-repeat;*/
+        /*background-position:left top;*/
+    }
+    .left{
+      background:white;
+      height: 300px;
+      width:100px;
+      position: fixed;
+      left:60px;
+      top:180px;
+      font-size: 20px;
+      color: #0f2350;
+        /*text-decoration: underline;*/
+
+    }
+    .kuang1{
+      background: darkgrey;
+      height: 400px;
+      width: 500px;
+      top:200px;
+      left:300px;
+      color: grey;
+      position: absolute;
+      font-size: larger;
+    }
+    .kuang2{
+      background: darkgrey;
+      height: 400px;
+      width: 500px;
+      top:200px;
+      right:100px;
+      color: grey;
+      position: absolute;
+      font-size: larger;
+    }
+
+    .right{
+      position: absolute;
+      left:170px;
+      top:180px;
+      right:20px;
+    }
+
+    a.color:link    {color:#0f2350; background: white;text-decoration: none}
+    a.color:visited {color:#0f2350; background: white;text-decoration: none}
+    a.color:hover   {color:white; background: #0f2350;text-decoration: none}
+    a.color:active  {color:white; background: #0f2350;text-decoration: none}
+
+    div.img {
+      border: 1px solid #ccc;
+    }
+
+    div.img:hover {
+      border: 1px solid #777;
+    }
+
+    div.img img {
+      width: 100%;
+      height: auto;
+    }
+
+    div.desc {
+      padding: 15px;
+      text-align: center;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    .responsive {
+      padding: 0 6px;
+      float: left;
+      width: 24.99999%;
+    }
+
+    @media only screen and (max-width: 700px){
+      .responsive {
+        width: 49.99999%;
+        margin: 6px 0;
+      }
+    }
+
+    @media only screen and (max-width: 500px){
+      .responsive {
+        width: 100%;
+      }
+    }
+
+    .clearfix:after {
+      content: "";
+      display: table;
+      clear: both;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="maincolor">
+    <p>
+        <!--<img src="./assets/CSUlogo.png" style="height: 50px;width:50px">-->
+
+    <pre>   ⚪  中南大学医学影像分析与机器视觉研究中心
+   <p style="font-size: large">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp首页|成员|研究课题|获得成就|团队风采|设备资源</p>
+  </pre>
+    </p>
+  </div>
+
+<div class="left">
+  <p>&nbsp&nbsp&nbsp<a class="color"> 数据库|</a></p>
+  <p>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<a href="localhost:8096" class="color">平台|</a> </p>
+  <p><a class="color"> 筛查系统|</a></p>
+
+</div>
+
+
+
+  <div class="right">
+
+
+  <div class="responsive">
+    <div class="img">
+      <a target="_blank" href="https://www.baidu.com/">
+        <img src="http://www.runoob.com/wp-content/uploads/2016/04/img_fjords.jpg" alt="Trolltunga Norway" width="300" height="200">
+      </a>
+      <div class="desc">百度搜索平台</div>
+    </div>
+  </div>
+
+
+  <div class="responsive">
+    <div class="img">
+      <a target="_blank" href="http://www.runoob.com/">
+        <img src="http://www.runoob.com/wp-content/uploads/2016/04/img_forest.jpg" alt="Forest" width="600" height="400">
+      </a>
+      <div class="desc">菜鸟教程学习平台</div>
+    </div>
+  </div>
+
+  <div class="responsive">
+    <div class="img">
+      <a target="_blank" href="http://element-cn.eleme.io/#/zh-CN">
+        <img src="http://www.runoob.com/wp-content/uploads/2016/04/img_lights.jpg" alt="Northern Lights" width="600" height="400">
+      </a>
+      <div class="desc">Element官网</div>
+    </div>
+  </div>
+
+  <div class="responsive">
+    <div class="img">
+      <a target="_blank" href="https://www.zhihu.com/">
+        <img src="http://www.runoob.com/wp-content/uploads/2016/04/img_mountains.jpg" alt="Mountains" width="600" height="400">
+      </a>
+      <div class="desc">知乎问答平台</div>
+    </div>
+  </div>
+
+  </div>
+
+
+
+
+</body>
+
+</html>
