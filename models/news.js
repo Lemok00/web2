@@ -23,7 +23,7 @@ mongoose.connect(testDB, {useNewUrlParser: true, useFindAndModify: false}, (err)
 * */
 
 const newsSchema = new mongoose.Schema({
-    MsgType:            {type:String,   required:true,  default:'newsMsg'},
+    MsgType:            {type: String,  required: true, default:'newsMsg'},
     create_user:        {type: String,  required: true},
     create_date:        {type: Date,    required: true, default: Date.now},
     is_Modified:        {type: Boolean, required: true, default: false},
@@ -32,7 +32,8 @@ const newsSchema = new mongoose.Schema({
     tittle:             {type: String,  required: true},
     classify:           {type: String,  required: true, default: 'default'},
     content:            {type: String,  required: true},
-    attachment:         {type: String}
+    attachment:         {type: String},
+    is_Deleted:         {type: Boolean, required: true, default: false}
 });
 
 module.exports = mongoose.model('News', newsSchema);

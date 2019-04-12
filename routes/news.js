@@ -20,7 +20,7 @@ router.get('/news_list', function (req, res) {
     } else {
         let page = (req.body.page || 1);
         let rows = (req.body.rows || 10); //由请求指定每页新闻的数目
-        let query = newsModel.find({});
+        let query = newsModel.find({is_Deleted: false});
         query.skip((page - 1) * rows);
         query.limit(rows);  //最多取rows行数据
         query.exec(function (err, newsList) {
@@ -47,7 +47,7 @@ router.post('/create_news', function (req, res) {
         res.redirect('/');
     } else {
         //判断是否存在标题重复
-        newsModel.findOne({tittle: req.body.tittle}, function (err, news) {
+        newsModel.findOne({tittle: req.body.tittle, is_Deleted: false}, function (err, news) {
             if (err || news) {
                 res.send(JSON.stringify({ret_mag: '新闻标题重复'}))
             } else {
@@ -59,7 +59,8 @@ router.post('/create_news', function (req, res) {
                     last_modified_date: Date.now(),
                     tittle: req.body.tittle,
                     content: req.body.content,
-                    classify: 'default'
+                    classify: 'default',
+                    is_Deleted: false
                 });
                 //保存新闻
                 newNews.save(function (err) {
@@ -93,7 +94,8 @@ router.get('/search_news', function (req, res) {
             {classify: {$regex: keyword}},
             {create_user: {$regex: keyword}},
             {attachment: {$regex: keyword}}
-        ]
+        ],
+        is_Deleted: false
     };
 
     //统计满足条件的新闻条数并返回给前端
@@ -198,6 +200,37 @@ router.post('/post_modify', function (req, res) {
         }
     });
 
+});
+
+router.post('/delete_news', function (req, res) {
+    //登录状态下才可以提交删除请求
+    if (req.session.isLogged !== true) {
+        res.redirect('/');
+        return;
+    }
+
+    //获取要删除的新闻id
+    //id在'/ask_modify'时作为隐含数据传出
+    let req_id = req.body._id;
+
+    //查找是否存在id匹配的新闻
+    newsModel.findOne({_id: req_id}, function (err, news) {
+        if (err || !news) {
+            //发生错误或新闻不存在时返回错误信息
+            res.send('当前新闻不存在');
+        } else if (news.is_Deleted == true) {
+            res.send('当前新闻已删除');
+        }
+    });
+
+    //将该新闻标记为删除
+    newsModel.findByIdAndUpdate(req_id, {is_Deleted: true}, function (err) {
+        if (err) {
+            res.send('删除失败')
+        } else {
+            res.send('删除成功')
+        }
+    })
 });
 
 module.exports = router;
