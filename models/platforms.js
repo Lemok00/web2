@@ -22,6 +22,7 @@ const platSchema = new mongoose.Schema({
     MsgType:            {type: String,  required: true, default: 'platMsg'},
     platName:           {type: String,  required: true},
     coverImg:           {type: String,  required: true, default: 'defaultimg'},
+    linkedUrl:          {type: String,  required: true},
     create_user:        {type: String,  required: true},
     create_date:        {type: Date,    required: true, default: Date().now},
     last_modified_user: {type: String,  required: true},

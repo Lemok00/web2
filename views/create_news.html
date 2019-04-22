@@ -1,15 +1,18 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
-    <title>Create news</title>
-    <form action="/news/create_news" method="POST">
-        <div>NewsTittle<input placeholder="Input the tittle here" type="text" name="tittle"></div>
-        <div>NewsContent<input placeholder="Input the content here" type="text" name="content"></div>
-        <button class="button" type="submit">Submit</button>
-    </form>
+    <title>编辑器demo</title>
 </head>
 <body>
+<div id="editor">
+</div>
 
+<script type="text/javascript" src="/javascripts/wangeditor.min.js"></script>
+<script type="text/javascript">
+    var E = window.wangEditor
+    var editor = new E('#editor')
+    editor.create()
+</script>
 </body>
 </html>

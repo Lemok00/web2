@@ -4,6 +4,7 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const session = require('express-session');
+const bodyParser=require('body-parser');
 
 const indexRouter = require('./routes/index');
 const logRouter = require('./routes/log');
@@ -19,7 +20,7 @@ app.engine('html', require('ejs').__express);
 
 app.use(logger('dev'));
 app.use(express.json());
-app.use(express.urlencoded({extended: false}));
+app.use(bodyParser.urlencoded({extend:false}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -29,7 +30,7 @@ app.use(session({
     resave: false,
     saveUnintialized: true,
     cookie: {
-        maxAge: 1000 * 60 * 3
+        maxAge: 1000 * 60 * 30
     }
 }));
 

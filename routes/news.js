@@ -31,15 +31,12 @@ router.get('/news_list', function (req, res) {
 });
 
 
-//发布新闻
 router.get('/create_news', function (req, res) {
-    //登录状态下才可以发布新闻
     if (req.session.isLogged !== true) {
         res.redirect('/');
     } else {
         res.render('create_news');
     }
-    //console.log('hello news');
 });
 
 router.post('/create_news', function (req, res) {
