@@ -2,17 +2,38 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>编辑器demo</title>
+    <title>编辑器demo6</title>
 </head>
 <body>
+<input type="text" id="getTittle"/>
 <div id="editor">
 </div>
+<button id="saveNews">保存</button>
 
 <script type="text/javascript" src="/javascripts/wangeditor.min.js"></script>
 <script type="text/javascript">
     var E = window.wangEditor
     var editor = new E('#editor')
+    editor.customConfig.uploadImgShowBase64=true;
     editor.create()
+
+    document.getElementById('saveNews').addEventListener('click',function () {
+        var tittle=document.getElementById('getTittle').value;
+        var content=editor.txt.html();
+        var txt=editor.txt.text();
+        var xhr=new XMLHttpRequest();
+        xhr.open('POST','/news/create_news',true);
+        xhr.setRequestHeader("Content-type", "application/json");
+        xhr.setRequestHeader("kbn-version", "5.3.0");
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                    //window.location.href = us.nextUrl;
+                }
+            }
+        };
+        xhr.send(JSON.stringify({tittle:tittle,content:content,txt:txt}));
+    })
 </script>
 </body>
 </html>

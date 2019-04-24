@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title value="<%=tittle%>"></title>
+</head>
+<body>
+<div id="news_content">
+
+</div>
+</body>
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script type="">
+    var news_content='<%=content%>';
+    console.log(news_content)
+    //$("#news_content").prepend(news_content)
+    document.getElementById('news_content').innerHTML=news_content;
+    news_content=document.getElementById('news_content').innerText;
+    document.getElementById('news_content').innerHTML=news_content;
+</script>
+</html>

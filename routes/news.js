@@ -56,6 +56,7 @@ router.post('/create_news', function (req, res) {
                     last_modified_date: Date.now(),
                     tittle: req.body.tittle,
                     content: req.body.content,
+                    txt: req.body.txt,
                     classify: 'default',
                     is_Deleted: false
                 });
@@ -63,13 +64,15 @@ router.post('/create_news', function (req, res) {
                 newNews.save(function (err) {
                     if (err) {
                         res.send(JSON.stringify({ret_msg: '发布新闻失败'}));
-                        //console.log(err);
+                        console.log(err);
                     } else {
                         res.send(JSON.stringify({ret_msg: '新闻发布成功'}));
+                        console.log('新闻发布成功')
                     }
                 });
             }
-        })
+        });
+        console.log(req.body)
     }
 });
 
@@ -87,7 +90,7 @@ router.get('/search_news', function (req, res) {
     let _filter = {
         $or: [
             {tittle: {$regex: keyword}},
-            {content: {$regex: keyword}},
+            {txt: {$regex: keyword}},
             {classify: {$regex: keyword}},
             {create_user: {$regex: keyword}},
             {attachment: {$regex: keyword}}
@@ -228,6 +231,35 @@ router.post('/delete_news', function (req, res) {
             res.send('删除成功')
         }
     })
+});
+
+//浏览新闻
+router.get('/view_news', function (req, res) {
+    if (req.session.isLogged !== true) {
+        res.redirect('/');
+        return;
+    }
+
+    //获取新闻id
+    let keyword = req.query.search_keywords;
+
+    //查找一条id符合的新闻
+    newsModel.findOne({_id: keyword})
+        .exec(function (err, news) {
+            //发生错误则返回相应提示
+            if (err || !news) {
+                res.send('当前新闻不存在');
+                return;
+            } else {
+                res.render('view_news', {
+                    id: news._id,
+                    tittle: news.tittle,
+                    content: news.content,
+                    classify: news.classify,
+                    attachment: news.attachment
+                });
+            }
+        })
 });
 
 module.exports = router;

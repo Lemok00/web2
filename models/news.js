@@ -32,6 +32,7 @@ const newsSchema = new mongoose.Schema({
     tittle:             {type: String,  required: true},
     classify:           {type: String,  required: true, default: 'default'},
     content:            {type: String,  required: true},
+    txt:                {type: String,  required: true},
     attachment:         {type: String},
     is_Deleted:         {type: Boolean, required: true, default: false}
 });
