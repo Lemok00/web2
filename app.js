@@ -20,7 +20,8 @@ app.engine('html', require('ejs').__express);
 
 app.use(logger('dev'));
 app.use(express.json());
-app.use(bodyParser.urlencoded({extend:false}));
+app.use(bodyParser.json({limit: '50mb'}));
+app.use(bodyParser.urlencoded({limit:'50mb',extended:true}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
