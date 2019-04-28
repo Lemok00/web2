@@ -12,20 +12,30 @@ router.get('/', function (req, res) {
     console.log('hello news');
 });
 
+router.get('/news_list', function (req, res) {
+    if (req.session.isLogged !== true) {
+        res.redirect('/');
+    } else {
+        res.render('news_list');
+    }
+});
+
 //新闻列表
 //获取最近10条新闻
-router.get('/news_list', function (req, res) {
+router.get('/get_newslist', function (req, res) {
     if (req.session.isLogged !== true) {
         res.redirect('/');
     } else {
         //let page = (req.body.page || 1);
         //let rows = (req.body.rows || 10); //由请求指定每页新闻的数目
-        let query = newsModel.find({is_Deleted: false},['_id','tittle','create_date']);
+        let query = newsModel.find({is_Deleted: false}, ['_id', 'tittle', 'create_date']);
         //query.skip((page - 1) * rows);
         //query.limit(rows);  //最多取rows行数据
         query.exec(function (err, newsList) {
-            res.render('news_list', {newsList: newsList});
-            //console.log(newsList);
+            var count = newsList.length;
+            res.json({data: newsList, count: count});
+            console.log(newsList);
+            console.log(count);
         });
     }
 });
@@ -46,7 +56,7 @@ router.post('/create_news', function (req, res) {
         //判断是否存在标题重复
         newsModel.findOne({tittle: req.body.tittle, is_Deleted: false}, function (err, news) {
             if (err || news) {
-                res.json({ret_code:1,ret_msg: '新闻标题重复'})
+                res.json({ret_code: 1, ret_msg: '新闻标题重复'})
             } else {
                 let newNews = new newsModel({
                     create_user: req.session.userName,
@@ -63,10 +73,10 @@ router.post('/create_news', function (req, res) {
                 //保存新闻
                 newNews.save(function (err) {
                     if (err) {
-                        res.json({ret_code:2,ret_msg: '发布新闻失败'});
+                        res.json({ret_code: 2, ret_msg: '发布新闻失败'});
                         console.log(err);
                     } else {
-                        res.json({ret_code:0,ret_msg: '新闻发布成功'});
+                        res.json({ret_code: 0, ret_msg: '新闻发布成功'});
                         console.log('新闻发布成功')
                     }
                 });

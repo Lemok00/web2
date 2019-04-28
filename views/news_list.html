@@ -3,9 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <title>新闻列表</title>
-    <div>新闻列表：<span><%= newsList %> </span></div>
 </head>
 <body>
+<div id="newsList">
 
+</div>
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script type="text/javascript">
+    $.ajax({
+        url:'/news/get_newslist',
+        timeout:20*1000,
+        type:'get',
+        success:function (res) {
+            var data=res.data;
+            var count=res.count;
+            var list=document.getElementById('newsList');
+            for(var i=0;i<count;i++){
+                var li=document.createElement('li');
+                var a=document.createElement('a');
+                list.appendChild(li);
+                li.setAttribute('id',data[i]._id);
+                li.appendChild(a);
+                a.innerHTML=data[i].tittle;
+                a.setAttribute('href','/news/view_news?search_keywords='+li.getAttribute('id'))
+            }
+        }
+    });
+</script>
 </body>
 </html>
