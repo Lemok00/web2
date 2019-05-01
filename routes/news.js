@@ -147,13 +147,13 @@ router.get('/ask_modify', function (req, res) {
         .exec(function (err, news) {
             //发生错误则返回相应提示
             if (err || !news) {
-                res.send('当前新闻不存在');
+                res.json({ret_code:1,ret_msg:'当前新闻不存在'});
                 return;
             } else {
                 //跳转到修改界面
                 //传递现有数据
                 res.render('news_modify', {
-                    id: news._id,
+                    _id: news._id,
                     tittle: news.tittle,
                     content: news.content,
                     classify: news.classify,
@@ -179,7 +179,7 @@ router.post('/post_modify', function (req, res) {
     newsModel.findOne({_id: req_id}, function (err, news) {
         if (err || !news) {
             //发生错误或新闻不存在时返回错误信息
-            res.send('当前新闻不存在');
+            res.json({ret_code:1,ret_msg:'当前新闻不存在'});
         }
     });
 
@@ -192,6 +192,7 @@ router.post('/post_modify', function (req, res) {
     let modification = {
         tittle: req.body.tittle,
         content: req.body.content,
+        txt: req.body.txt,
         classify: req.body.classify,
         attachment: req.body.attachment,
         is_Modified: true,
@@ -203,10 +204,10 @@ router.post('/post_modify', function (req, res) {
     newsModel.findOneAndUpdate({_id: req_id}, modification, function (err) {
         if (err) {
             //返回错误信息
-            res.send('新闻修改失败');
+            res.json({ret_code:1,ret_msg:'新闻修改失败'});
         } else {
             //返回成功信息
-            res.send('新闻修改成功')
+            res.json({ret_code:0,ret_msg:'新闻修改成功'})
         }
     });
 
@@ -227,18 +228,18 @@ router.post('/delete_news', function (req, res) {
     newsModel.findOne({_id: req_id}, function (err, news) {
         if (err || !news) {
             //发生错误或新闻不存在时返回错误信息
-            res.send('当前新闻不存在');
-        } else if (news.is_Deleted == true) {
-            res.send('当前新闻已删除');
+            res.json({ret_code:1,ret_msg:'当前新闻不存在'});
+        } else if (news.is_Deleted === true) {
+            res.json({ret_code:1,ret_msg:'当前新闻已删除'});
         }
     });
 
     //将该新闻标记为删除
     newsModel.findByIdAndUpdate(req_id, {is_Deleted: true}, function (err) {
         if (err) {
-            res.send('删除失败')
+            res.json({ret_code:1,ret_msg:'删除失败'});
         } else {
-            res.send('删除成功')
+            res.json({ret_code:0,ret_msg:'删除成功'});
         }
     })
 });

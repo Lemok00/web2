@@ -1,95 +1,61 @@
 <!DOCTYPE html>
-<html xmlns:v-bind="http://www.w3.org/1999/xhtml">
+<html>
 <head>
-    <meta charset="utf-8">
-    <title>Vue 测试实例 - 菜鸟教程(runoob.com)</title>
-    <script src="https://cdn.staticfile.org/vue/2.2.2/vue.min.js"></script>
-    <style>
-        .active {
-            width: 1520px;
-            height: 500px;
-            background: #8ec16d;
-        }
-
-        .mydiv {
-            width: 300px;
-            height: 200px;
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            margin: -100px 0 0 -150px;
-            border: 100px;
-            border: #8ec16d;
-        }
-
-        .button {
-            background-color: #4CAF50;
-            border: none;
-            color: white;
-            padding: 8px 22px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 15px;
-            margin: 8px 12px;
-            cursor: pointer;
-        }
-
-        .inset {
-            border: 4px;
-
-        }
-    </style>
+    <meta charset="UTF-8">
+    <title>编辑器demo6</title>
 </head>
 <body>
-<div id="app" class="mydiv">
-    <form action="/news/post_modify" method="POST">
-        <!--<div v-bind:class="{ active: isActive }"></div>-->
-        <input type='text' value='1' name="_id" id="id" hidden>
-        <div>Tittle&nbsp<input type="text" value="" name="tittle" id="tittle"></div>
-        <div>Content&nbsp&nbsp<input type="text" value="" name="content" id="content"></div>
-        <div>Classify&nbsp&nbsp<input type="text" value="" name="classify" id="classify"></div>
-        <div>Attachment&nbsp&nbsp<input type="text" value="" name="attachment" id="attachment"></div>
-        <br>
-        <!--<input type="submit" value="submit" />-->
-        <button class="button" type="submit">Save Modification</button>
-    </form>
-    <form action="/news/delete_news" method="POST">
-        <input type='text' value='1' name="_id" id="del_id" hidden>
-        <button class="button" type="submit">Delete News</button>
-    </form>
+<input type="text" id="getTittle"/>
+<div id="editor">
 </div>
+<button id="saveNews">保存修改</button>
 
-<script>
-
-    new Vue({
-        el: '#app',
-        data: {
-            isActive: true,
-            styleObject: {
-                color: 'green',
-                fontSize: '18px'
+<script type="text/javascript" src="/javascripts/wangEditor.min.js"></script>
+<script type="text/javascript">
+    var _id='<%=_id%>';
+    var tittle='<%=tittle%>';
+    var content='<%=content%>';
+    document.getElementById('getTittle').setAttribute('value',tittle);
+    document.getElementById('editor').innerHTML=content;
+    content=document.getElementById('editor').innerText;
+    document.getElementById('editor').innerHTML=content;
+    var E = window.wangEditor;
+    var editor = new E('#editor');
+    editor.customConfig.uploadImgShowBase64 = true;
+    editor.customConfig.pasteFilterStyle = false;
+    editor.customConfig.pasteIgnoreImg = true;
+    editor.create()
+</script>
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script type="text/javascript">
+    document.getElementById('saveNews').addEventListener('click', function () {
+        var tittle = document.getElementById('getTittle').value;
+        var content = editor.txt.html();
+        content = content.replace(/[\r\n]/g, ""); //去掉回车换行
+        var txt = editor.txt.text();
+        console.log(content);
+        var ajaxPost = $.ajax({
+            url: '/news/post_modify',
+            timeout: 60 * 1000,
+            type: 'post',
+            data: {_id:_id, tittle: tittle, content: content, txt: txt},
+            dataType: 'json',
+            success: function (res) {
+                if (res.ret_code === 0) {
+                    alert(res.ret_msg);
+                    window.history.back();
+                } else {
+                    alert(res.ret_msg)
+                }
+            },
+            complete: function (req, status) {
+                if (status === 'timeout') {
+                    ajaxPost.abort();
+                    alert('文件上传超时');
+                }
             }
-        }
-
-    });
-
-    var IdData = '<%=id%>';
-    document.getElementById("id").value = IdData;
-    document.getElementById("del_id").value = IdData;
-
-    var TittleData = '<%=tittle%>';
-    document.getElementById("tittle").value = TittleData;
-
-    var ContentData = '<%=content%>';
-    document.getElementById("content").value = ContentData;
-
-    var ClassifyData = '<%=classify%>';
-    document.getElementById("classify").value = ClassifyData;
-
-    var AttachData = '<%=attachment%>';
-    document.getElementById("attachment").value = AttachData;
-
+        });
+    })
 </script>
 </body>
 </html>
