@@ -21,11 +21,15 @@
             for(var i=0;i<count;i++){
                 var li=document.createElement('li');
                 var a=document.createElement('a');
+                var a2=document.createElement('a');
                 list.appendChild(li);
                 li.setAttribute('id',data[i]._id);
                 li.appendChild(a);
+                li.appendChild(a2);
                 a.innerHTML=data[i].tittle;
-                a.setAttribute('href','/news/view_news?search_keywords='+li.getAttribute('id'))
+                a.setAttribute('href','/news/view_news?search_keywords='+li.getAttribute('id'));
+                a2.innerText='修改';
+                a2.setAttribute('href','/news/ask_modify?search_keywords='+li.getAttribute('id'));
             }
         }
     });
