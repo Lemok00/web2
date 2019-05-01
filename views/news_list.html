@@ -18,21 +18,23 @@
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 <script type="text/javascript">
     $.ajax({
-        url:'/news/get_newslist',
-        timeout:20*1000,
-        type:'get',
-        success:function (res) {
-            var data=res.data;
-            var count=res.count;
-            var list=document.getElementById('newsList');
-            for(var i=0;i<count;i++){
-                var newdata=document.createElement('tr');
-                var titte=document.createElement('td');
-                var date=document.createElement('td');
-                var a=document.createElement('a');
-                var a1=document.createElement('a');
-                var a2=document.createElement('a');
-                var space=document.createElement('a');
+        url: '/news/get_newslist',
+        timeout: 20 * 1000,
+        type: 'get',
+        success: function (res) {
+            var data = res.data;
+            var count = res.count;
+            var list = document.getElementById('newsList');
+            for (var i = 0; i < count; i++) {
+                var newdata = document.createElement('tr');
+                var titte = document.createElement('td');
+                var date = document.createElement('td');
+                var a = document.createElement('a');
+                var a1 = document.createElement('a');
+                var a2 = document.createElement('a');
+                var a3 = document.createElement('a');
+                var space = document.createElement('a');
+                var space2 = document.createElement('a');
                 list.appendChild(newdata);
                 newdata.appendChild(titte);
                 newdata.appendChild(date);
@@ -40,21 +42,53 @@
                 a.appendChild(a1);
                 a.appendChild(space);
                 a.appendChild(a2);
-                newdata.setAttribute('id',data[i]._id);
-                titte.innerHTML=data[i].tittle;
-                var temp=new Date(data[i].create_date.toString());
-                temp=temp.getFullYear()+'/'+(temp.getMonth()+1)+'/'+temp.getDate();
-                date.innerHTML=temp.toString();
-                date.setAttribute('align','center');
-                a.setAttribute('align','right');
-                a1.innerText='查看';
-                a1.setAttribute('href','/news/view_news?search_keywords='+newdata.getAttribute('id'));
-                a2.innerText='修改';
-                a2.setAttribute('href','/news/ask_modify?search_keywords='+newdata.getAttribute('id'));
-                space.innerText='  ';
+                a.appendChild(space2);
+                a.appendChild(a3);
+                newdata.setAttribute('id', data[i]._id);
+                titte.innerHTML = data[i].tittle;
+                var temp = new Date(data[i].create_date.toString());
+                temp = temp.getFullYear() + '/' + (temp.getMonth() + 1) + '/' + temp.getDate();
+                date.innerHTML = temp.toString();
+                date.setAttribute('align', 'center');
+                a.setAttribute('align', 'right');
+                a1.innerText = '查看';
+                a1.setAttribute('href', '/news/view_news?search_keywords=' + newdata.getAttribute('id'));
+                a2.innerText = '修改';
+                a2.setAttribute('href', '/news/ask_modify?search_keywords=' + newdata.getAttribute('id'));
+                a3.innerText = '删除';
+                var id=JSON.stringify(newdata.getAttribute('id')).replace(/\"/g,"'");
+                a3.setAttribute('href', 'javascript:;');
+                a3.setAttribute('onclick', 'deleteNews(' + id + ')');
+                space.innerText = '  ';
+                space2.innerText = '  ';
             }
         }
     });
+
+    function deleteNews(_id) {
+        $.ajax({
+            url: '/news/delete_news',
+            timeout: 20 * 1000,
+            type: 'post',
+            data: {_id: _id},
+            dataType: 'json',
+            success: function (res) {
+                if (res.ret_code === 0) {
+                    alert(res.ret_msg);
+                    window.location.reload();
+                } else {
+                    alert(res.ret_msg)
+                }
+            },
+            complete: function (req, status) {
+                if (status === 'timeout') {
+                    ajaxPost.abort();
+                    alert('请求上传超时');
+                }
+            }
+        });
+        return false;
+    }
 </script>
 </body>
 </html>

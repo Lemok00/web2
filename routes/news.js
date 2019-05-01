@@ -34,8 +34,6 @@ router.get('/get_newslist', function (req, res) {
         query.exec(function (err, newsList) {
             var count = newsList.length;
             res.json({data: newsList, count: count});
-            console.log(newsList);
-            console.log(count);
         });
     }
 });
