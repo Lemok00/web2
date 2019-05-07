@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>增添平台</title>
+</head>
+<body>
+<div>
+    图片
+    <input type="file" name="img" id="uploadimg" onchange="handleSelected()">
+</div>
+<div>
+    平台名称：
+    <input type="text" id="tittle" value="">
+</div>
+<div>
+    平台地址：
+    <input type="text" id="link" value="">
+</div>
+<div>
+    <button onclick="submitPlatform()">提交</button>
+</div>
+<div>
+    预览
+    <img id="preview" src="" width="300" height="200"/>
+</div>
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script>
+    var imgFile;
+    function handleSelected() {
+        const obj = document.getElementById('uploadimg');
+        let file = obj.files[0];
+        console.log(file);
+        let reader = new FileReader();
+        reader.onload = function (e) {
+            imgFile = e.target.result;
+            document.getElementById('preview').setAttribute('src', imgFile);
+        };
+        reader.readAsDataURL(file);
+    }
+
+    function submitPlatform() {
+        const tittle=document.getElementById('tittle').getAttribute('value');
+        const link=document.getElementById('link').getAttribute('value');
+        $.ajax({
+            url:'/platforms/addplatforms',
+            timeout:20*1000,
+            type:'post',
+            data:{img:imgFile,tittle:tittle,link:link},
+            dataType:'json',
+            success:function(res){
+                if(res.ret_code===0){
+                    alert(res.ret_msg);
+                }else{
+                    alert(res.ret_msg);
+                }
+            },
+            submit:function (res) {
+
+            }
+        });
+        return false;
+    }
+</script>
+</body>
+</html>

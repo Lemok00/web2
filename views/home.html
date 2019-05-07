@@ -5,24 +5,18 @@
     <title>Title</title>
 </head>
 <body>
-    <div>用户名：<span><%= userName %> </span>  <a href="/log/logout">退出登录</a></div>
-    <a href="/news/create_news">
-        <button>Create News</button>
-    </a>
-    <a href="/news/news_list">
-        <button>News List</button>
-    </a>
-    <form action="/news/search_news" method="get">
-        <div>Search&nbsp<input placeholder="Input keywords here" type="text" name="search_keywords"></div>
-        <button type="submit">Search</button>
-    </form>
-    <form action="/news/ask_modify" method="get">
-        <div>Ask For Modify&nbsp<input placeholder="Input newsId here" type="text" name="search_keywords"></div>
-        <button type="submit">Modify</button>
-    </form>
-    <form action="/news/view_news" method="get">
-        <div>View News&nbsp<input placeholder="Input newsId here" type="text" name="search_keywords"></div>
-        <button type="submit">View</button>
-    </form>
+<div>用户名：<span><%= userName %> </span> <a href="/log/logout">退出登录</a></div>
+<a href="/news/create_news">
+    <button>Create News</button>
+</a>
+<a href="/news/news_list">
+    <button>News List</button>
+</a>
+<form action="/news/search_news" method="get">
+    <div>Search&nbsp<input placeholder="Input keywords here" type="text" name="search_keywords"></div>
+    <button type="submit">Search</button>
+</form>
+<button onclick="window.location.href='/platforms'">访问平台</button>
+<button onclick="window.location.href='/platforms/addplatforms'">增添平台</button>
 </body>
 </html>                    
