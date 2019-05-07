@@ -5,7 +5,6 @@ $(document).ready(function(){
         for(const i in data){
             const obj = data[i];                    //这里说明一下，json包不需要说明一共有多少个了，因为可以自动遍历
 
-            console.log(obj);
             var div1=document.createElement("div");
             var div2=document.createElement("div");
             var div3=document.createElement("div");
