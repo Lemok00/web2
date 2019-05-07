@@ -40,8 +40,8 @@
     }
 
     function submitPlatform() {
-        const tittle=document.getElementById('tittle').getAttribute('value');
-        const link=document.getElementById('link').getAttribute('value');
+        const tittle=document.getElementById('tittle').value;
+        const link=document.getElementById('link').value;
         $.ajax({
             url:'/platforms/addplatforms',
             timeout:20*1000,
