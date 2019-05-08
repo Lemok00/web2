@@ -7,10 +7,10 @@ router.get('/', function (req, res) {
 });
 
 router.get('/platformlist', function (req, res) {
-    let query = platModel.find({isUnable: false}, ['_id', 'platName', 'coverImg','linkedUrl']);
+    let query = platModel.find({isUnable: false}, ['_id', 'platName', 'coverImg', 'linkedUrl']);
     query.exec(function (err, platList) {
         //console.log(platList);
-        res.json({data:platList});
+        res.json({data: platList, count: platList.length});
     });
 });
 
@@ -20,6 +20,25 @@ router.get('/addplatforms', function (req, res) {
     } else {
         res.render('platforms/addplatforms');
     }
+});
+
+router.get('/manage_platform', function (req, res) {
+    if (req.session.isLogged !== true) {
+        res.json({ret_code: 1, ret_msg: '登录失效'});
+    } else {
+        res.render('platforms/platformlist');
+    }
+});
+
+router.get('/viewscoverImg', function (req, res) {
+    let query = platModel.findOne({_id: req.query.search_keywords}, ['_id', 'coverImg']);
+    query.exec(function (err, platform) {
+        if (err) {
+            console.log(err)
+        } else {
+            res.render('viewImg', {img: platform.coverImg});
+        }
+    });
 });
 
 router.post('/addplatforms', function (req, res) {

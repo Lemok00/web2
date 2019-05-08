@@ -2,42 +2,49 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>新闻列表</title>
+    <title>平台列表</title>
 </head>
 <body>
-<table id="newsList">
+<table id="platformList" width="700" style="table-layout: fixed">
     <thead>
     <tr>
-        <th width="200">标题</th>
-        <th width="200">日期</th>
-        <th>操作</th>
+        <th width="200">名称</th>
+        <th width="300">链接</th>
+        <th width="200">操作</th>
     </tr>
     </thead>
 
 </table>
+<style>
+    td {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+</style>
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 <script type="text/javascript">
     $.ajax({
-        url: '/news/get_newslist',
+        url: '/platforms/platformlist',
         timeout: 20 * 1000,
         type: 'get',
         success: function (res) {
             var data = res.data;
             var count = res.count;
-            var list = document.getElementById('newsList');
+            var list = document.getElementById('platformList');
             for (var i = 0; i < count; i++) {
                 var newdata = document.createElement('tr');
-                var titte = document.createElement('td');
-                var date = document.createElement('td');
-                var a = document.createElement('a');
+                var platName = document.createElement('td');
+                var link = document.createElement('td');
+                var a = document.createElement('td');
                 var a1 = document.createElement('a');
                 var a2 = document.createElement('a');
                 var a3 = document.createElement('a');
                 var space = document.createElement('a');
                 var space2 = document.createElement('a');
                 list.appendChild(newdata);
-                newdata.appendChild(titte);
-                newdata.appendChild(date);
+                newdata.appendChild(platName);
+                newdata.appendChild(link);
                 newdata.appendChild(a);
                 a.appendChild(a1);
                 a.appendChild(space);
@@ -45,27 +52,28 @@
                 a.appendChild(space2);
                 a.appendChild(a3);
                 newdata.setAttribute('id', data[i]._id);
-                titte.innerHTML = data[i].tittle;
-                var temp = new Date(data[i].create_date.toString());
-                temp = temp.getFullYear() + '/' + (temp.getMonth() + 1) + '/' + temp.getDate();
-                date.innerHTML = temp.toString();
-                date.setAttribute('align', 'center');
-                a.setAttribute('align', 'right');
-                a1.innerText = '查看';
-                a1.setAttribute('href', '/news/view_news?search_keywords=' + newdata.getAttribute('id'));
+                platName.innerHTML = data[i].platName;
+                link.innerHTML = data[i].linkedUrl;
+                link.setAttribute('align', 'left');
+                link.setAttribute('class','link');
+                a.setAttribute('align', 'center');
+                a1.innerText = '查看封面图';
+                a1.setAttribute('href', '/platforms/viewscoverImg?search_keywords='+newdata.getAttribute('id'));
                 a2.innerText = '修改';
-                a2.setAttribute('href', '/news/ask_modify?search_keywords=' + newdata.getAttribute('id'));
+                a2.setAttribute('href', '/platforms/ask_modify?search_keywords=' + newdata.getAttribute('id'));
                 a3.innerText = '删除';
                 var id=JSON.stringify(newdata.getAttribute('id')).replace(/\"/g,"'");
                 a3.setAttribute('href', 'javascript:;');
-                a3.setAttribute('onclick', 'deleteNews(' + id + ')');
+                a3.setAttribute('onclick', 'deletePlatform(' + id + ')');
                 space.innerText = '  ';
                 space2.innerText = '  ';
+                link.setAttribute('width','300');
+                link.setAttribute('style','word_break');
             }
         }
     });
 
-    function deleteNews(_id) {
+    function deletePlatform(_id) {
         $.ajax({
             url: '/news/delete_news',
             timeout: 20 * 1000,

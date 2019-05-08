@@ -27,35 +27,52 @@
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 <script>
     var imgFile;
+    var base64;
+
     function handleSelected() {
         const obj = document.getElementById('uploadimg');
         let file = obj.files[0];
-        console.log(file);
+        //console.log(file);
         let reader = new FileReader();
         reader.onload = function (e) {
             imgFile = e.target.result;
-            document.getElementById('preview').setAttribute('src', imgFile);
+            var img = new Image();
+            img.src = imgFile;
+            img.onload = function () {
+                var that = this;
+                var canvas = document.createElement('canvas');
+                var ctx = canvas.getContext('2d');
+                var anw = document.createAttribute('width');
+                anw.nodeValue = 300;
+                var anh = document.createAttribute('height');
+                anh.nodeValue = 200;
+                canvas.setAttributeNode(anw);
+                canvas.setAttributeNode(anh);
+                ctx.drawImage(that, 0, 0, 300, 200);
+                base64 = canvas.toDataURL('image/jpeg',1.0);
+                document.getElementById('preview').setAttribute('src', base64);
+            }
         };
         reader.readAsDataURL(file);
     }
 
     function submitPlatform() {
-        const tittle=document.getElementById('tittle').value;
-        const link=document.getElementById('link').value;
+        const tittle = document.getElementById('tittle').value;
+        const link = document.getElementById('link').value;
         $.ajax({
-            url:'/platforms/addplatforms',
-            timeout:20*1000,
-            type:'post',
-            data:{img:imgFile,tittle:tittle,link:link},
-            dataType:'json',
-            success:function(res){
-                if(res.ret_code===0){
+            url: '/platforms/addplatforms',
+            timeout: 20 * 1000,
+            type: 'post',
+            data: {img: base64, tittle: tittle, link: link},
+            dataType: 'json',
+            success: function (res) {
+                if (res.ret_code === 0) {
                     alert(res.ret_msg);
-                }else{
+                } else {
                     alert(res.ret_msg);
                 }
             },
-            submit:function (res) {
+            submit: function (res) {
 
             }
         });
