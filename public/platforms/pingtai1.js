@@ -20,8 +20,6 @@ $(document).ready(function(){
             div3.className="desc";
             a1.target="_blank";
             img1.src="/platforms/loading.png";
-            img1.style.width="300";
-            img1.style.height="200";
             var right=document.getElementById("right");
             right.appendChild(div1);
 
@@ -30,6 +28,10 @@ $(document).ready(function(){
             div1.setAttribute('onclick',"window.location.href='"+obj.linkedUrl+"'");
             div3.innerHTML=obj.platName;  //这是平台的名字
 
+            img1.setAttribute('width',300);
+            img1.setAttribute('height',200);
+            img1.style.width="300";
+            img1.style.height="200";
         }
     });
 });

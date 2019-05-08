@@ -3,13 +3,13 @@ const platModel = require('../models/platforms');
 const router = express.Router();
 
 router.get('/', function (req, res) {
-    res.render('platforms/平台1')
+    res.render('platforms/platform1')
 });
 
 router.get('/platformlist', function (req, res) {
     let query = platModel.find({isUnable: false}, ['_id', 'platName', 'coverImg','linkedUrl']);
     query.exec(function (err, platList) {
-        console.log(platList);
+        //console.log(platList);
         res.json({data:platList});
     });
 });
@@ -26,7 +26,7 @@ router.post('/addplatforms', function (req, res) {
     if (req.session.isLogged !== true) {
         res.json({ret_code: 1, ret_msg: '登录失效'});
     } else {
-        console.log(req.body);
+        //console.log(req.body);
         let newplatform = new platModel({
             platName: req.body.tittle,
             coverImg: req.body.img,
