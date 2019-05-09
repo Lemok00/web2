@@ -55,20 +55,20 @@
                 platName.innerHTML = data[i].platName;
                 link.innerHTML = data[i].linkedUrl;
                 link.setAttribute('align', 'left');
-                link.setAttribute('class','link');
+                link.setAttribute('class', 'link');
                 a.setAttribute('align', 'center');
                 a1.innerText = '查看封面图';
-                a1.setAttribute('href', '/platforms/viewscoverImg?search_keywords='+newdata.getAttribute('id'));
+                a1.setAttribute('href', '/platforms/viewscoverImg?search_keywords=' + newdata.getAttribute('id'));
                 a2.innerText = '修改';
                 a2.setAttribute('href', '/platforms/ask_modify?search_keywords=' + newdata.getAttribute('id'));
                 a3.innerText = '删除';
-                var id=JSON.stringify(newdata.getAttribute('id')).replace(/\"/g,"'");
+                var id = JSON.stringify(newdata.getAttribute('id')).replace(/\"/g, "'");
                 a3.setAttribute('href', 'javascript:;');
                 a3.setAttribute('onclick', 'deletePlatform(' + id + ')');
                 space.innerText = '  ';
                 space2.innerText = '  ';
-                link.setAttribute('width','300');
-                link.setAttribute('style','word_break');
+                link.setAttribute('width', '300');
+                link.setAttribute('style', 'word_break');
             }
         }
     });

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>增添平台</title>
+</head>
+<body>
+<div>
+    图片
+    <input type="file" name="img" id="uploadimg" onchange="handleSelected()">
+</div>
+<div>
+    平台名称：
+    <input type="text" id="tittle" value="">
+</div>
+<div>
+    平台地址：
+    <input type="text" id="link" value="">
+</div>
+<div>
+    <button onclick="submitPlatform()">提交修改</button>
+</div>
+<div>
+    预览
+    <img id="preview" src="" width="300" height="200"/>
+</div>
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script>
+    var imgFile;
+    var base64;
+    var key=getUrlParam('search_keywords');
+    var _id;
+
+    $.ajax({
+        url:'/platforms/askplatforminfo?search_keywords='+key,
+        timeout:20*1000,
+        type:'get',
+        dataType: 'json',
+        success:function (res) {
+            if(res.ret_code===0){
+                let data=res.data;
+                _id=data._id;
+                base64=data.coverImg;
+                document.getElementById('preview').setAttribute('src',base64);
+                document.getElementById('tittle').setAttribute('value',data.platName);
+                document.getElementById('link').setAttribute('value',data.linkedUrl);
+            }
+        },
+        complete:function (req,status) {
+
+        }
+    });
+
+
+    function handleSelected() {
+        const obj = document.getElementById('uploadimg');
+        let file = obj.files[0];
+        //console.log(file);
+        let reader = new FileReader();
+        reader.onload = function (e) {
+            imgFile = e.target.result;
+            var img = new Image();
+            img.src = imgFile;
+            img.onload = function () {
+                var that = this;
+                var canvas = document.createElement('canvas');
+                var ctx = canvas.getContext('2d');
+                var anw = document.createAttribute('width');
+                anw.nodeValue = 300;
+                var anh = document.createAttribute('height');
+                anh.nodeValue = 200;
+                canvas.setAttributeNode(anw);
+                canvas.setAttributeNode(anh);
+                ctx.drawImage(that, 0, 0, 300, 200);
+                base64 = canvas.toDataURL('image/jpeg',1.0);
+                document.getElementById('preview').setAttribute('src', base64);
+            }
+        };
+        reader.readAsDataURL(file);
+    }
+
+    function submitPlatform() {
+        const tittle = document.getElementById('tittle').value;
+        const link = document.getElementById('link').value;
+        $.ajax({
+            url: '/platforms/postmodify',
+            timeout: 20 * 1000,
+            type: 'post',
+            data: {_id:_id,img: base64, tittle: tittle, link: link},
+            dataType: 'json',
+            success: function (res) {
+                if (res.ret_code === 0) {
+                    alert(res.ret_msg);
+                } else {
+                    alert(res.ret_msg);
+                }
+            },
+            submit: function (res) {
+
+            }
+        });
+        return false;
+    }
+
+    function getUrlParam(name) {
+        let reg=new RegExp("(^|\\?|&)"+name+"=([^&]*)(\\s|&|$)","i");
+        if(reg.test(window.location.href)){
+            return unescape(RegExp.$2.replace(/\+/g," "));
+        }else {
+            return false;
+        }
+    }
+</script>
+</body>
+</html>
