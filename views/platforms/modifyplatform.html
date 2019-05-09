@@ -28,25 +28,25 @@
 <script>
     var imgFile;
     var base64;
-    var key=getUrlParam('search_keywords');
+    var key = getUrlParam('search_keywords');
     var _id;
 
     $.ajax({
-        url:'/platforms/askplatforminfo?search_keywords='+key,
-        timeout:20*1000,
-        type:'get',
+        url: '/platforms/askplatforminfo?search_keywords=' + key,
+        timeout: 20 * 1000,
+        type: 'get',
         dataType: 'json',
-        success:function (res) {
-            if(res.ret_code===0){
-                let data=res.data;
-                _id=data._id;
-                base64=data.coverImg;
-                document.getElementById('preview').setAttribute('src',base64);
-                document.getElementById('tittle').setAttribute('value',data.platName);
-                document.getElementById('link').setAttribute('value',data.linkedUrl);
+        success: function (res) {
+            if (res.ret_code === 0) {
+                let data = res.data;
+                _id = data._id;
+                base64 = data.coverImg;
+                document.getElementById('preview').setAttribute('src', base64);
+                document.getElementById('tittle').setAttribute('value', data.platName);
+                document.getElementById('link').setAttribute('value', data.linkedUrl);
             }
         },
-        complete:function (req,status) {
+        complete: function (req, status) {
 
         }
     });
@@ -72,7 +72,7 @@
                 canvas.setAttributeNode(anw);
                 canvas.setAttributeNode(anh);
                 ctx.drawImage(that, 0, 0, 300, 200);
-                base64 = canvas.toDataURL('image/jpeg',1.0);
+                base64 = canvas.toDataURL('image/jpeg', 1.0);
                 document.getElementById('preview').setAttribute('src', base64);
             }
         };
@@ -86,7 +86,7 @@
             url: '/platforms/postmodify',
             timeout: 20 * 1000,
             type: 'post',
-            data: {_id:_id,img: base64, tittle: tittle, link: link},
+            data: {_id: _id, img: base64, tittle: tittle, link: link},
             dataType: 'json',
             success: function (res) {
                 if (res.ret_code === 0) {
@@ -103,10 +103,10 @@
     }
 
     function getUrlParam(name) {
-        let reg=new RegExp("(^|\\?|&)"+name+"=([^&]*)(\\s|&|$)","i");
-        if(reg.test(window.location.href)){
-            return unescape(RegExp.$2.replace(/\+/g," "));
-        }else {
+        let reg = new RegExp("(^|\\?|&)" + name + "=([^&]*)(\\s|&|$)", "i");
+        if (reg.test(window.location.href)) {
+            return unescape(RegExp.$2.replace(/\+/g, " "));
+        } else {
             return false;
         }
     }

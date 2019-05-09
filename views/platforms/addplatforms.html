@@ -49,7 +49,7 @@
                 canvas.setAttributeNode(anw);
                 canvas.setAttributeNode(anh);
                 ctx.drawImage(that, 0, 0, 300, 200);
-                base64 = canvas.toDataURL('image/jpeg',1.0);
+                base64 = canvas.toDataURL('image/jpeg', 1.0);
                 document.getElementById('preview').setAttribute('src', base64);
             }
         };

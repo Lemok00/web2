@@ -35,7 +35,7 @@ router.get('/viewscoverImg', function (req, res) {
     query.exec(function (err, platform) {
         if (err) {
             console.log(err);
-            res.json({ret_code:1,ret_msg:'数据读取错误'});
+            res.json({ret_code: 1, ret_msg: '数据读取错误'});
         } else {
             res.render('viewImg', {img: platform.coverImg});
         }
@@ -50,14 +50,14 @@ router.get('/askplatforminfo', function (req, res) {
     if (req.session.isLogged !== true) {
         res.json({ret_code: 1, ret_msg: '登录失效'});
     } else {
-        let key=req.query.search_keywords;
-        let query=platModel.findOne({_id:key},['_id', 'platName', 'coverImg', 'linkedUrl']);
-        query.exec(function (err,platform) {
-            if(err){
+        let key = req.query.search_keywords;
+        let query = platModel.findOne({_id: key}, ['_id', 'platName', 'coverImg', 'linkedUrl']);
+        query.exec(function (err, platform) {
+            if (err) {
                 console.log(err);
-                res.json({ret_code:1,ret_msg:'数据读取错误'});
-            }else {
-                res.json({ret_code:0,data:platform});
+                res.json({ret_code: 1, ret_msg: '数据读取错误'});
+            } else {
+                res.json({ret_code: 0, data: platform});
             }
         })
     }
@@ -87,31 +87,31 @@ router.post('/addplatforms', function (req, res) {
     }
 });
 
-router.post('/postmodify',function (req,res) {
-    if(req.session.isLogged!==true){
-        res.json({ret_code:1,ret_msg:'登录状态失效'});
-    }else{
-        let _id=req.body._id;
-        platModel.findOne({_id:_id},function (err,platform) {
-            if(err||!platform){
-                res.json({ret_code:1,ret_msg:'该平台不存在'});
+router.post('/postmodify', function (req, res) {
+    if (req.session.isLogged !== true) {
+        res.json({ret_code: 1, ret_msg: '登录状态失效'});
+    } else {
+        let _id = req.body._id;
+        platModel.findOne({_id: _id}, function (err, platform) {
+            if (err || !platform) {
+                res.json({ret_code: 1, ret_msg: '该平台不存在'});
             }
         });
 
-        let modification={
-            platName:req.body.tittle,
-            linkedUrl:req.body.link,
+        let modification = {
+            platName: req.body.tittle,
+            linkedUrl: req.body.link,
             coverImg: req.body.img,
-            isModified:true,
+            isModified: true,
             last_modified_user: req.session.userName,
             last_modified_date: Date.now()
         };
 
-        platModel.findOneAndUpdate({_id:_id},modification,function (err) {
-            if(err){
-                res.json({ret_code:1,ret_msg:'平台修改失败'});
-            }else{
-                res.json({ret_code:0,ret_msg:'平台修改成功'});
+        platModel.findOneAndUpdate({_id: _id}, modification, function (err) {
+            if (err) {
+                res.json({ret_code: 1, ret_msg: '平台修改失败'});
+            } else {
+                res.json({ret_code: 0, ret_msg: '平台修改成功'});
             }
         });
     }
