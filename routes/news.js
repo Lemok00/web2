@@ -16,7 +16,7 @@ router.get('/news_list', function (req, res) {
     if (req.session.isLogged !== true) {
         res.redirect('/');
     } else {
-        res.render('news_list');
+        res.render('news/news_list');
     }
 });
 
@@ -43,7 +43,7 @@ router.get('/create_news', function (req, res) {
     if (req.session.isLogged !== true) {
         res.redirect('/');
     } else {
-        res.render('create_news');
+        res.render('news/create_news');
     }
 });
 
@@ -84,6 +84,10 @@ router.post('/create_news', function (req, res) {
     }
 });
 
+router.get('/search_page',function (req,res) {
+    res.render('news/search_list');
+});
+
 router.get('/search_news', function (req, res) {
     //登录状态下才能搜索新闻
     if (req.session.isLogged !== true) {
@@ -117,14 +121,14 @@ router.get('/search_news', function (req, res) {
     });
 
     //返回满足条件的新闻数据
-    newsModel.find(_filter)
-        .limit(10)
+    newsModel.find(_filter, ['_id', 'tittle', 'create_date'])
+        //.limit(10)
         .sort({'id': -1})
         .exec(function (err, news) {
             if (err) {
                 console.log(err);
             } else {
-                res.send(JSON.stringify({data: news, count: count}));
+                res.json({data: news, count: count});
             }
         })
 });
@@ -150,7 +154,7 @@ router.get('/ask_modify', function (req, res) {
             } else {
                 //跳转到修改界面
                 //传递现有数据
-                res.render('news_modify', {
+                res.render('news/news_modify', {
                     _id: news._id,
                     tittle: news.tittle,
                     content: news.content,
@@ -260,7 +264,7 @@ router.get('/view_news', function (req, res) {
                 res.send('当前新闻不存在');
                 return;
             } else {
-                res.render('view_news', {
+                res.render('news/view_news', {
                     id: news._id,
                     tittle: news.tittle,
                     content: news.content,

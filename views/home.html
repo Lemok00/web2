@@ -12,10 +12,12 @@
 <a href="/news/news_list">
     <button>News List</button>
 </a>
-<form action="/news/search_news" method="get">
-    <div>Search&nbsp<input placeholder="Input keywords here" type="text" name="search_keywords"></div>
-    <button type="submit">Search</button>
-</form>
+<div>
+    <div>Search&nbsp<input placeholder="Input keywords here" type="text" id="search_keywords"></div>
+    <button onclick="window.location.href='/news/search_page?search_keywords='+document.getElementById('search_keywords').value">
+        搜索新闻
+    </button>
+</div>
 <button onclick="window.location.href='/platforms'">访问平台</button>
 <button onclick="window.location.href='/platforms/addplatforms'">增添平台</button>
 <button onclick="window.location.href='/platforms/manage_platform'">管理平台</button>
