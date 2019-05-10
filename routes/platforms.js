@@ -117,4 +117,25 @@ router.post('/postmodify', function (req, res) {
     }
 });
 
+router.post('/delete_platform', function (req, res) {
+    if (req.session.isLogged !== true) {
+        res.json({ret_code: 1, ret_msg: '登录状态失效'});
+    } else {
+        platModel.findOne({_id: req.body._id}, function (err, platform) {
+            if (err || !platform) {
+                res.json({ret_code: 1, ret_msg: '当前平台不存在'});
+            } else if (platform.isUnable === true) {
+                res.json({ret_code: 1, ret_msg: '当前平台已删除'});
+            }
+        });
+        platModel.findByIdAndUpdate(req.body._id, {isUnable: true}, function (err) {
+            if (err) {
+                res.json({ret_code: 1, ret_msg: '删除失败'});
+            } else {
+                res.json({ret_code: 0, ret_msg: '删除成功'});
+            }
+        })
+    }
+});
+
 module.exports = router;
